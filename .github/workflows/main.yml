@@ -8,26 +8,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Update system
+      - name: Setup and Start tmate
         run: |
           sudo apt update
           sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
-
-      - name: Install tmate
-        run: |
           sudo apt install -y tmate
 
-      - name: Start tmate
-        run: |
-          tmate -F new-session -d
+          tmate new-session -d
           tmate wait tmate-ready
+
+          echo "========================================"
           echo "SSH:"
           tmate display -p '#{tmate_ssh}'
+          echo
           echo "Web:"
           tmate display -p '#{tmate_web}'
+          echo "========================================"
 
-      - name: Keep runner alive
-        run: |
           while true; do
             sleep 60
           done
