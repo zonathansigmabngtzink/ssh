@@ -14,16 +14,16 @@ jobs:
           sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
           sudo apt install -y tmate
 
-          tmate new-session -d
-          tmate wait tmate-ready
+          SOCKET=/tmp/tmate.sock
 
-          echo "========================================"
+          tmate -S "$SOCKET" new-session -d
+          tmate -S "$SOCKET" wait tmate-ready
+
           echo "SSH:"
-          tmate display -p '#{tmate_ssh}'
-          echo
+          tmate -S "$SOCKET" display -p '#{tmate_ssh}'
+
           echo "Web:"
-          tmate display -p '#{tmate_web}'
-          echo "========================================"
+          tmate -S "$SOCKET" display -p '#{tmate_web}'
 
           while true; do
             sleep 60
