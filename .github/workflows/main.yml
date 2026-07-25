@@ -1,0 +1,33 @@
+name: Tmate SSH
+
+on:
+  workflow_dispatch:
+
+jobs:
+  tmate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update system
+        run: |
+          sudo apt update
+          sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
+
+      - name: Install tmate
+        run: |
+          sudo apt install -y tmate
+
+      - name: Start tmate
+        run: |
+          tmate -F new-session -d
+          tmate wait tmate-ready
+          echo "SSH:"
+          tmate display -p '#{tmate_ssh}'
+          echo "Web:"
+          tmate display -p '#{tmate_web}'
+
+      - name: Keep runner alive
+        run: |
+          while true; do
+            sleep 60
+          done
