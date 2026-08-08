@@ -1,0 +1,20 @@
+name: SSHz2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ssh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Start tmate
+        uses: mxschmitt/action-tmate@v3
+
+      - name: Keep job alive
+        run: |
+          while true; do
+            sleep 300
+            echo "Still running: $(date)"
+          done
