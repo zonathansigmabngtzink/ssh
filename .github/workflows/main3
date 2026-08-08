@@ -1,0 +1,32 @@
+name: SSHz
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ssh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download tmate
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tmate
+
+      - name: ShowSSH
+        run: |
+          tmate -S /tmp/tmate.sock new-session -d
+          tmate -S /tmp/tmate.sock wait tmate-ready
+
+          echo "Web shell:"
+          tmate -S /tmp/tmate.sock display -p '#{tmate_web_url}'
+
+          echo "SSH:"
+          tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}'
+
+      - name: Keep runner alive
+        run: |
+          while true; do
+            sleep 300
+            echo "Runner is still alive: $(date)"
+          done
