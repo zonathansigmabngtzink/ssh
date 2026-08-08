@@ -1,4 +1,4 @@
-name: SSHz
+name: SSHz3
 
 on:
   workflow_dispatch:
